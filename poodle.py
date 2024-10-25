@@ -13,12 +13,18 @@ def read_file(file):
             if len(line) > 1:
                 line[1] = line[1].rstrip()
                 if (line[1] == "ACCEPTED"):
-                    print(line[1])
-        
+                    accepted_lines.append(line)
+            elif len(line) == 1:
+                accepted_lines.append(line)
+        f.close()
+
+    return accepted_lines
+
 
 
 def main():
-    read_file(file)
+    traces = read_file(file)
+        
 
 
 
