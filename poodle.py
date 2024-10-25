@@ -34,13 +34,10 @@ def calculate_cookie(c_rminone, block):
     
     hex_cr = int(block_c_rminone[15], 16)
     hex_cn = int(block_c_nminone[15], 16)
-    hex_padding = int("0f", 16)
+    padding = int("0f", 16)
 
-    bin_cr = int(bin(hex_cr)[2:], 2)
-    bin_cn = int(bin(hex_cn)[2:], 2)
-    padding = int(bin(hex_padding)[:2], 2)
-    print(padding)
-    mr = (padding ^ bin_cr ^ bin_cn)
+
+    mr = (padding ^ (hex_cr ^ hex_cn))
     return chr(mr)
 
     
@@ -60,11 +57,10 @@ def main():
     traces.pop(0) #remove the size and the c_r from the trace file to leave only the blocks.
 
     for block in traces:
-        cookie += calculate_cookie(c_rminone, block)
+        cookie = calculate_cookie(c_rminone, block) + cookie
 
 
-    print(cookie, len(cookie))
-
+    print(f"Cookie: {cookie}")
 
 
 if __name__ == "__main__":
