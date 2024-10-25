@@ -27,19 +27,27 @@ def read_file(file):
 
 def calculate_cookie(c_rminone, block):
     block = block.split(" ")
-    c_nminone = len(block) - 1
+    c_rminone_block = block[c_rminone -1]
+    c_nminone_block = block[(len(block) - 1)-1] #goes to index number 14 wich is block number 15
 
-    block_c_rminone = wrap(block[c_rminone - 1], 2) #-1 to account for indexing starts with one
-    block_c_nminone = wrap(block[c_nminone - 1], 2)
+    c_rminone_block = wrap(c_rminone_block, 2)
+    c_nminone_block = wrap(c_nminone_block, 2)
+
     
-    hex_cr = int(block_c_rminone[15], 16)
-    hex_cn = int(block_c_nminone[15], 16)
-    padding = int("0f", 16)
+    hex_cr = c_rminone_block[len(c_rminone_block) -1]
+    hex_cn = c_nminone_block[len(c_nminone_block) -1]
+    
+    #convert from hex to int for XOR
+    hex_cr_int = int(hex_cr, 16)
+    hex_cn_int = int(hex_cn, 16)
 
+    padding_int = 15
 
-    mr = (padding ^ (hex_cr ^ hex_cn))
+    mr = padding_int ^ hex_cr_int
+    mr = mr ^ hex_cn_int
+    print(hex_cr_int, hex_cn_int, mr)
+
     return chr(mr)
-
     
     
 
@@ -57,7 +65,7 @@ def main():
     traces.pop(0) #remove the size and the c_r from the trace file to leave only the blocks.
 
     for block in traces:
-        cookie = calculate_cookie(c_rminone, block) + cookie
+        cookie += str(calculate_cookie(c_rminone, block))
 
 
     print(f"Cookie: {cookie}")
